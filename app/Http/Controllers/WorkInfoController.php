@@ -68,6 +68,7 @@ class WorkInfoController extends Controller
             return response()->error('Unexpected error. Contact to developer');
         }
 
+
         $ongoingWorkInfo = auth()->user()->workInfo()->where('status', 'ongoing')->first();
 
         if ($ongoingWorkInfo) {
