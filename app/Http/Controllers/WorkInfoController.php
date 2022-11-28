@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Validator;
 
 class WorkInfoController extends Controller
 {
+    public function all(Request $request)
+    {
+        $all = WorkInfo::with('user')->where('date', $request->date)->get();
+
+        return response()->json($all);
+    }
+
+    public function get($id)
+    {
+        $info = WorkInfo::with('user')->find($id);
+
+        return response()->json($info);
+    }
+
     public function start_stop(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -32,9 +46,10 @@ class WorkInfoController extends Controller
                 $workInfo = new WorkInfo([
                     'user_id' => auth()->id(),
                     'status'  => 'ongoing',
-                    'start_time' => new Carbon($request->time),
+                    'start_time' => (new Carbon($request->time))->toTimeString(),
                     'start_location' => $request->location,
-                    'date'  => new Carbon(),
+                    'current_location' => $request->location,
+                    'date'  => (new Carbon())->toDateString(),
                 ]);
             }
             else
@@ -42,9 +57,9 @@ class WorkInfoController extends Controller
 
                 $workInfo = auth()->user()->workInfo()->where('status', 'ongoing')->first();
 
-                $workInfo->status = 'end';
+                $workInfo->status = 'closed';
                 $workInfo->end_location = $request->location;
-                $workInfo->end_time = new Carbon($request->time);
+                $workInfo->end_time = (new Carbon($request->time))->toTimeString();
                 $workInfo->current_location = null;
             }
 

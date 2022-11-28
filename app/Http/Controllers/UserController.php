@@ -40,4 +40,11 @@ class UserController extends Controller
     {
         return response()->success($user);
     }
+
+    public function delete(User $user)
+    {
+        $user->delete();
+
+        return response()->success();
+    }
 }

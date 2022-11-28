@@ -26,10 +26,16 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
 //Route::group(['middleware' => 'auth.jwt:admin'], function () {
     Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UserController::class, 'all']);
         Route::post('/', [UserController::class, 'create']);
         Route::post('/{user}', [UserController::class, 'update']);
-        Route::get('/', [UserController::class, 'all']);
         Route::get('/{user}', [UserController::class, 'get']);
+        Route::delete('/{user}', [UserController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'info'], function() {
+        Route::get('/', [WorkInfoController::class, 'all']);
+        Route::get('/{id}', [WorkInfoController::class, 'get']);
     });
 //});
 
