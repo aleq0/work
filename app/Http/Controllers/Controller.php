@@ -16,7 +16,7 @@ class Controller extends BaseController
         return response()->json(['status' => false, 'message' => $message]);
     }
 
-    public function successResponse(array $data): \Illuminate\Http\JsonResponse
+    public function successResponse(array $data = []): \Illuminate\Http\JsonResponse
     {
         return response()->json(['status' => true, 'data' => $data]);
     }

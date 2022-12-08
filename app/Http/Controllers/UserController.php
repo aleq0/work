@@ -45,6 +45,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->success();
+        return response()->success('Deleted');
     }
 }
