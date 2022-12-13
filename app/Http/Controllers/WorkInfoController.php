@@ -11,9 +11,13 @@ class WorkInfoController extends Controller
 {
     public function all(Request $request)
     {
-        $all = WorkInfo::with('user')->where('date', $request->date)->get();
+        $all = WorkInfo::with('user');
 
-        return response()->json($all);
+        if($request->date) {
+            $all = $all->where('date', $request->date);
+        }
+
+        return response()->json($all->paginate(30));
     }
 
     public function get($id)
